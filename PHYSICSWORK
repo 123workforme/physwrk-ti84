@@ -1,0 +1,3957 @@
+:Degree
+:9.81->G
+:ClrHome
+
+:Lbl MM
+:ClrHome
+:Menu("ENERGY SOLVER","ROLLER COASTER",R1,"RC+FRICTION",R2,"SPRING LAUNCH",SL,"SPRING COMPRS",SC,"PENDULUM",PD,"SKIER",SK,"WORK",WM,"POWER",PM,"MORE...",ZX)
+
+:Lbl ZX
+:Menu("MORE","INDIV.FORMULA",IF,"ANS KEY",AK,"CONVERTER",CV,"QUIT",ZQ,"<< MAIN",MM)
+
+:Lbl ZQ
+:ClrHome
+:Disp "GOODBYE"
+:Stop
+
+:Lbl R1
+:ClrHome
+:Menu("ROLLER COASTER","FIND vB",R1A,"FIND vA",R1B,"FIND hB",R1C,"FIND hA",R1D,"FIND ME",R1E,"FULL SOLVE",RF,"GUIDE",RG,"QUIT",ZQ,"<< MAIN",MM)
+
+:Lbl R1A
+:ClrHome
+:Disp "FIND vB"
+:Disp "NEED: m,hA,vA,hB"
+:Pause
+:ClrHome
+:Input "MASS (KG)=",M
+:Input "HEIGHT A (M)=",H
+:Input "VEL A (M/S)=",V
+:Input "TARGET H (M)=",B
+:G*H+.5*V*V-G*B->Q
+:If Q<0
+:Then
+:ClrHome
+:Disp "ERR:NEG SQRT"
+:Disp "CHECK INPUTS"
+:Pause
+:Goto R1
+:End
+:sqrt(2*Q)->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "MEA=MEB"
+:Disp "GhA+.5vA^2"
+:Disp "=GhB+.5vB^2"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "vB=sqrt(2*(GhA"
+:Disp "+.5vA^2-GhB))"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp "9.81*"+toString(H)+"+.5*"+toString(V)+"^2"
+:Disp "  GhA=",G*H
+:Disp "  KEa=",0.5*V*V
+:Disp "  GhB=",G*B
+:Disp "  Q=",Q
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "vB (M/S)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto R1
+
+:Lbl R1B
+:ClrHome
+:Disp "FIND vA"
+:Disp "NEED: hA,vB,hB"
+:Pause
+:ClrHome
+:Input "HEIGHT A (M)=",H
+:Input "TARGET H (M)=",B
+:Input "TARGET V(M/S)=",V
+:G*B+.5*V*V-G*H->Q
+:If Q<0
+:Then
+:ClrHome
+:Disp "ERR:NEG SQRT"
+:Disp "CHECK INPUTS"
+:Pause
+:Goto R1
+:End
+:sqrt(2*Q)->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "GhA+.5vA^2"
+:Disp "=GhB+.5vB^2"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "vA=sqrt(2*(GhB"
+:Disp "+.5vB^2-GhA))"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp "9.81*"+toString(B)+"+.5*"+toString(V)+"^2"
+:Disp "  GhB=",G*B
+:Disp "  KEb=",0.5*V*V
+:Disp "  GhA=",G*H
+:Disp "  Q=",Q
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "vA (M/S)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto R1
+
+:Lbl R1C
+:ClrHome
+:Disp "FIND hB"
+:Disp "NEED: hA,vA,vB"
+:Pause
+:ClrHome
+:Input "HEIGHT A (M)=",H
+:Input "VEL A (M/S)=",V
+:Input "TARGET V(M/S)=",W
+:(G*H+.5*V*V-.5*W*W)/G->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "GhA+.5vA^2"
+:Disp "=GhB+.5vB^2"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "hB=(GhA+.5vA^2"
+:Disp "-.5vB^2)/G"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp "9.81*"+toString(H)+"+.5*"+toString(V)+"^2"
+:Disp "  GhA=",G*H
+:Disp "  KEa=",0.5*V*V
+:Disp "  KEb=",0.5*W*W
+:Disp "  NUM=",G*H+.5*V*V-.5*W*W
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "hB (M)="
+:If N=0
+:Then
+:Disp 0
+:Else
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:End
+:Pause
+:Goto R1
+
+:Lbl R1D
+:ClrHome
+:Disp "FIND hA"
+:Disp "NEED: hB,vA,vB"
+:Pause
+:ClrHome
+:Input "TARGET H (M)=",B
+:Input "VEL A (M/S)=",V
+:Input "TARGET V(M/S)=",W
+:(G*B+.5*W*W-.5*V*V)/G->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "GhA+.5vA^2"
+:Disp "=GhB+.5vB^2"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "hA=(GhB+.5vB^2"
+:Disp "-.5vA^2)/G"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp "9.81*"+toString(B)+"+.5*"+toString(W)+"^2"
+:Disp "  GhB=",G*B
+:Disp "  KEb=",0.5*W*W
+:Disp "  KEa=",0.5*V*V
+:Disp "  NUM=",G*B+.5*W*W-.5*V*V
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "hA (M)="
+:If N=0
+:Then
+:Disp 0
+:Else
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:End
+:Pause
+:Goto R1
+
+:Lbl R1E
+:ClrHome
+:Disp "FIND ME"
+:Disp "NEED: m,h,v"
+:Pause
+:ClrHome
+:Input "MASS (KG)=",M
+:Input "HEIGHT (M)=",H
+:Input "VEL (M/S)=",V
+:M*G*H+.5*M*V*V->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "ME=PEg+KE"
+:Disp "ME=mGh+.5mv^2"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "ME=m(Gh+.5v^2)"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(M)+"*9.81*"+toString(H)
+:Disp "  PEg=",M*G*H
+:Disp ".5*"+toString(M)+"*"+toString(V)+"^2"
+:Disp "  KE=",0.5*M*V*V
+:Disp "  ME=",N
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "ME (J)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto R1
+
+:Lbl RF
+:ClrHome
+:Disp "RC FULL SOLVE"
+:Disp "No friction"
+:Disp "Use same height"
+:Disp "ref for A,B,C"
+:Pause
+:ClrHome
+:Input "MASS (KG)=",M
+:Input "HEIGHT A (M)=",H
+:Input "VEL A (M/S)=",V
+:Input "h_B (M)=",B
+:Input "h_C (M)=",C
+:M*G*H+.5*M*V*V->T
+:ClrHome
+:Disp "--- POINT A ---"
+:Disp "ME=",T
+:Disp "PE_A=",M*G*H
+:Disp "KE_A=",.5*M*V*V
+:Disp "vA=",V
+:Pause
+:ClrHome
+:T-M*G*B->K
+:Disp "--- POINT B ---"
+:Disp "ME=",T
+:Disp "PE_B=",M*G*B
+:Disp "KE_B=",K
+:If K>=0:Disp "vB=",sqrt(2*K/M)
+:If K<0:Disp "vB=N/A(h>ME)"
+:Pause
+:ClrHome
+:T-M*G*C->K
+:Disp "--- POINT C ---"
+:Disp "ME=",T
+:Disp "PE_C=",M*G*C
+:Disp "KE_C=",K
+:If K>=0:Disp "vC=",sqrt(2*K/M)
+:If K<0:Disp "vC=N/A(h>ME)"
+:Pause
+:Goto R1
+
+:Lbl RG
+:ClrHome
+:Menu("RC GUIDE","PE AT A POINT",RP,"KE AT A POINT",RQ,"VELOCITY",RR,"EXAMPLE",RS,"<< RC",R1)
+
+:Lbl RP
+:ClrHome
+:Disp "PE AT ANY POINT"
+:Disp "Go to FORMULAS"
+:Disp "> PEg > FIND PEg"
+:Disp "Enter m and h"
+:Disp "for that point"
+:Pause
+:Goto RG
+
+:Lbl RQ
+:ClrHome
+:Disp "KE AT ANY POINT"
+:Disp "KE = ME - PE"
+:Disp "1.Find ME"
+:Disp "2.Find PE(point)"
+:Disp "3.Subtract"
+:Disp "OR: FULL SOLVE"
+:Pause
+:Goto RG
+
+:Lbl RR
+:ClrHome
+:Disp "VELOCITY AT PT"
+:Disp "Use FIND vB"
+:Disp "Set that point"
+:Disp "as hB input"
+:Disp "OR: FULL SOLVE"
+:Pause
+:Goto RG
+
+:Lbl RS
+:ClrHome
+:Disp "EXAMPLE:"
+:Disp "m=555 hA=15 vA=0"
+:Disp "hB=0   hC=5"
+:Pause
+:ClrHome
+:Disp "PE at B? (hB=0)"
+:Disp "FORMS>PEg>h=0"
+:Disp "PE_B = 0 J"
+:Disp "KE at B?"
+:Disp "KE_B=ME-PE_B"
+:Disp "=81707-0"
+:Disp "KE_B=81707 J"
+:Pause
+:ClrHome
+:Disp "PE at C? (hC=5)"
+:Disp "FORMS>PEg>h=5"
+:Disp "PE_C=27236 J"
+:Disp "KE at C?"
+:Disp "KE_C=ME-PE_C"
+:Disp "=81707-27236"
+:Disp "KE_C=54471 J"
+:Pause
+:ClrHome
+:Disp "TIP: Use"
+:Disp "FULL SOLVE to"
+:Disp "get A,B,C all"
+:Disp "at once!"
+:Pause
+:Goto RG
+
+:Lbl R2
+:ClrHome
+:Menu("RC+FRICTION","FIND vB",R2A,"FIND vA",R2B,"FIND hB",R2C,"FIND hA",R2D,"FIND TE",R2E,"QUIT",ZQ,"<< MAIN",MM)
+
+:Lbl R2A
+:ClrHome
+:Disp "FIND vB"
+:Disp "NEED:m,hA,vA,hB,TE"
+:Pause
+:ClrHome
+:Input "MASS (KG)=",M
+:Input "HEIGHT A (M)=",H
+:Input "VEL A (M/S)=",V
+:Input "TARGET H (M)=",B
+:Input "THERM E (J)=",T
+:M*G*H+.5*M*V*V-M*G*B-T->Q
+:If Q<0
+:Then
+:ClrHome
+:Disp "ERR:NEG SQRT"
+:Disp "TE TOO LARGE"
+:Pause
+:Goto R2
+:End
+:sqrt(2*Q/M)->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "MEA=MEB+TE"
+:Disp "mGhA+.5mvA^2"
+:Disp "=mGhB+.5mvB^2+TE"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "vB=sqrt(2/m*"
+:Disp "(mGhA+.5mvA^2"
+:Disp "-mGhB-TE))"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(M)+"*9.81*"+toString(H)
+:Disp "  mGhA=",M*G*H
+:Disp ".5*"+toString(M)+"*"+toString(V)+"^2"
+:Disp "  KEa=",0.5*M*V*V
+:Disp "  MEA=",M*G*H+.5*M*V*V
+:Disp "  mGhB=",M*G*B
+:Disp "  TE=",T
+:Disp "  Q=",Q
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "vB (M/S)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto R2
+
+:Lbl R2B
+:ClrHome
+:Disp "FIND vA"
+:Disp "NEED:m,hA,hB,vB,TE"
+:Pause
+:ClrHome
+:Input "MASS (KG)=",M
+:Input "HEIGHT A (M)=",H
+:Input "TARGET H (M)=",B
+:Input "TARGET V(M/S)=",W
+:Input "THERM E (J)=",T
+:M*G*B+.5*M*W*W+T-M*G*H->Q
+:If Q<0
+:Then
+:ClrHome
+:Disp "ERR:NEG SQRT"
+:Disp "CHECK INPUTS"
+:Pause
+:Goto R2
+:End
+:sqrt(2*Q/M)->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "MEA=MEB+TE"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "vA=sqrt(2/m*"
+:Disp "(mGhB+.5mvB^2"
+:Disp "+TE-mGhA))"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(M)+"*9.81*"+toString(B)
+:Disp "  mGhB=",M*G*B
+:Disp ".5*"+toString(M)+"*"+toString(W)+"^2"
+:Disp "  KEb=",0.5*M*W*W
+:Disp "  MEB=",M*G*B+.5*M*W*W
+:Disp "  mGhA=",M*G*H
+:Disp "  TE=",T
+:Disp "  Q=",Q
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "vA (M/S)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto R2
+
+:Lbl R2C
+:ClrHome
+:Disp "FIND hB"
+:Disp "NEED:m,hA,vA,vB,TE"
+:Pause
+:ClrHome
+:Input "MASS (KG)=",M
+:Input "HEIGHT A (M)=",H
+:Input "VEL A (M/S)=",V
+:Input "TARGET V(M/S)=",W
+:Input "THERM E (J)=",T
+:(M*G*H+.5*M*V*V-.5*M*W*W-T)/(M*G)->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "MEA=MEB+TE"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "hB=(MEA-.5mvB^2"
+:Disp "-TE)/(mG)"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(M)+"*9.81*"+toString(H)+"+.5*"+toString(M)+"*"+toString(V)+"^2"
+:Disp "  MEA=",M*G*H+.5*M*V*V
+:Disp ".5*"+toString(M)+"*"+toString(W)+"^2"
+:Disp "  KEb=",0.5*M*W*W
+:Disp "  TE=",T
+:Disp "  mG=",M*G
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "hB (M)="
+:If N=0:Then:Disp 0:Else
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:End
+:Pause
+:Goto R2
+
+:Lbl R2D
+:ClrHome
+:Disp "FIND hA"
+:Disp "NEED:m,hB,vA,vB,TE"
+:Pause
+:ClrHome
+:Input "MASS (KG)=",M
+:Input "TARGET H (M)=",B
+:Input "VEL A (M/S)=",V
+:Input "TARGET V(M/S)=",W
+:Input "THERM E (J)=",T
+:(M*G*B+.5*M*W*W+T+.5*M*V*V)/(M*G)->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "MEA=MEB+TE"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "hA=(MEB+TE"
+:Disp "+.5mvA^2)/(mG)"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(M)+"*9.81*"+toString(B)+"+.5*"+toString(M)+"*"+toString(W)+"^2"
+:Disp "  MEB=",M*G*B+.5*M*W*W
+:Disp "  TE=",T
+:Disp ".5*"+toString(M)+"*"+toString(V)+"^2"
+:Disp "  KEa=",0.5*M*V*V
+:Disp "  mG=",M*G
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "hA (M)="
+:If N=0:Then:Disp 0:Else
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:End
+:Pause
+:Goto R2
+
+:Lbl R2E
+:ClrHome
+:Disp "FIND TE"
+:Disp "NEED:m,hA,vA,hB,vB"
+:Pause
+:ClrHome
+:Input "MASS (KG)=",M
+:Input "HEIGHT A (M)=",H
+:Input "VEL A (M/S)=",V
+:Input "TARGET H (M)=",B
+:Input "TARGET V(M/S)=",W
+:M*G*H+.5*M*V*V-(M*G*B+.5*M*W*W)->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "TE=MEA-MEB"
+:Disp "TE=mGhA+.5mvA^2"
+:Disp "-mGhB-.5mvB^2"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "TE=MEA-MEB"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(M)+"*9.81*"+toString(H)+"+.5*"+toString(M)+"*"+toString(V)+"^2"
+:Disp "  MEA=",M*G*H+.5*M*V*V
+:Disp toString(M)+"*9.81*"+toString(B)+"+.5*"+toString(M)+"*"+toString(W)+"^2"
+:Disp "  MEB=",M*G*B+.5*M*W*W
+:Disp "  TE=",N
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "TE (J)="
+:If N=0:Then:Disp 0:Else
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:End
+:Pause
+:Goto R2
+
+:Lbl SL
+:ClrHome
+:Disp "SPRING LAUNCH"
+:Disp "A compressed spring"
+:Disp "launches an object"
+:Disp "EX: spring shoots"
+:Disp "ball to max height"
+:Disp "Formula:.5kx^2=mGh"
+:Pause
+:ClrHome
+:Menu("SPRING LAUNCH","FIND h (max ht)",LA,"FIND k",LB,"FIND x (comprs)",LC,"FIND m",LD,"QUIT",ZQ,"<< MAIN",MM)
+
+:Lbl LA
+:ClrHome
+:Disp "FIND h (spring laun)"
+:Disp "Spring launches obj"
+:Disp "upward: find max h"
+:Disp ".5kx^2 = mGh + TE"
+:Disp "k(N/M) x(M) m(KG)"
+:Disp "cm/100=M  g/1000=KG"
+:Pause
+:ClrHome
+:Input "SPRING K (N/M)=",K
+:Input "COMPRESS X (M)=",X
+:Input "MASS (KG)=",M
+:Input "THERM E (J)=",T
+:(.5*K*X*X-T)/(M*G)->N
+:If N<0
+:Then
+:ClrHome
+:Disp "ERR:NEG HEIGHT"
+:Disp "TE EXCEEDS PEs"
+:Pause
+:Goto SL
+:End
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp ".5kx^2=mGh+TE"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "h=(.5kx^2-TE)"
+:Disp "   /(mG)"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp ".5*"+toString(K)+"*"+toString(X)+"^2"
+:Disp "  PEs=",0.5*K*X*X
+:Disp "  TE=",T
+:Disp toString(M)+"*9.81=mG"
+:Disp "  mG=",M*G
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "h (M)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto SL
+
+:Lbl LB
+:ClrHome
+:Disp "FIND k (spring laun)"
+:Disp "Know height & comprss"
+:Disp "find spring constant"
+:Disp "k=2(mGh+TE)/x^2"
+:Disp "h(M) x(M) m(KG) TE(J)"
+:Disp "cm/100=M  g/1000=KG"
+:Pause
+:ClrHome
+:Input "MAX HEIGHT (M)=",H
+:Input "COMPRESS X (M)=",X
+:Input "MASS (KG)=",M
+:Input "THERM E (J)=",T
+:If X=0
+:Then
+:ClrHome
+:Disp "ERR:DIV/0"
+:Disp "X CANNOT BE 0"
+:Pause
+:Goto SL
+:End
+:2*(M*G*H+T)/(X*X)->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp ".5kx^2=mGh+TE"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "k=2(mGh+TE)/x^2"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(M)+"*9.81*"+toString(H)
+:Disp "  mGh=",M*G*H
+:Disp "  TE=",T
+:Disp toString(X)+"^2=x^2"
+:Disp "  x^2=",X*X
+:Disp "  2*(mGh+TE)=",2*(M*G*H+T)
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "k (N/M)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto SL
+
+:Lbl LC
+:ClrHome
+:Disp "FIND x (spring laun)"
+:Disp "Know height & spring,"
+:Disp "find how far to push"
+:Disp "x=sqrt(2(mGh+TE)/k)"
+:Disp "k(N/M) h(M) m(KG)"
+:Disp "cm/100=M  g/1000=KG"
+:Pause
+:ClrHome
+:Input "SPRING K (N/M)=",K
+:Input "MAX HEIGHT (M)=",H
+:Input "MASS (KG)=",M
+:Input "THERM E (J)=",T
+:If K=0
+:Then
+:ClrHome
+:Disp "ERR:DIV/0"
+:Disp "K CANNOT BE 0"
+:Pause
+:Goto SL
+:End
+:2*(M*G*H+T)/K->Q
+:If Q<0
+:Then
+:ClrHome
+:Disp "ERR:NEG SQRT"
+:Disp "CHECK INPUTS"
+:Pause
+:Goto SL
+:End
+:sqrt(Q)->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp ".5kx^2=mGh+TE"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "x=sqrt(2(mGh"
+:Disp "+TE)/k)"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(M)+"*9.81*"+toString(H)+"+"+toString(T)
+:Disp "  mGh+TE=",M*G*H+T
+:Disp "  k=",K
+:Disp "  inner=",Q
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "x (M)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto SL
+
+:Lbl LD
+:ClrHome
+:Disp "FIND m (spring laun)"
+:Disp "Know spring & height,"
+:Disp "find mass of object"
+:Disp "m=(.5kx^2-TE)/(Gh)"
+:Disp "k(N/M) x(M) h(M) TE(J)"
+:Disp "cm/100=M  g/1000=KG"
+:Pause
+:ClrHome
+:Input "SPRING K (N/M)=",K
+:Input "COMPRESS X (M)=",X
+:Input "MAX HEIGHT (M)=",H
+:Input "THERM E (J)=",T
+:If G*H=0
+:Then
+:ClrHome
+:Disp "ERR:DIV/0"
+:Disp "H CANNOT BE 0"
+:Pause
+:Goto SL
+:End
+:(.5*K*X*X-T)/(G*H)->N
+:If N<=0
+:Then
+:ClrHome
+:Disp "ERR:CHECK INPUT"
+:Disp "NEG OR 0 MASS"
+:Pause
+:Goto SL
+:End
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp ".5kx^2=mGh+TE"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "m=(.5kx^2-TE)"
+:Disp "   /(Gh)"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp ".5*"+toString(K)+"*"+toString(X)+"^2"
+:Disp "  PEs=",0.5*K*X*X
+:Disp "  TE=",T
+:Disp "9.81*"+toString(H)+"=Gh"
+:Disp "  Gh=",G*H
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "m (KG)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto SL
+
+:Lbl SC
+:ClrHome
+:Disp "SPRING COMPRS"
+:Disp "ENERGY: find PEs,"
+:Disp "k, or x when spring"
+:Disp "stores/releases E"
+:Disp "EQUIL: spring holds"
+:Disp "weight (kx=mg)"
+:Pause
+:ClrHome
+:Menu("SPRING COMPRS","FIND PEs",CA,"FIND k (PEs,x)",CB,"FIND x (PEs,k)",CC,"FIND k (m,x)",CD,"FIND x (m,k)",CE,"FIND m (k,x)",CF,"QUIT",ZQ,"<< MAIN",MM)
+
+:Lbl CA
+:ClrHome
+:Disp "FIND PEs"
+:Disp "NEED: k,x"
+:Pause
+:ClrHome
+:Input "SPRING K (N/M)=",K
+:Input "COMPRESS X (M)=",X
+:.5*K*X*X->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "PEs=.5*k*x^2"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "(solving for PEs)"
+:Disp "PEs=.5*k*x^2"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp ".5*"+toString(K)+"*"+toString(X)+"^2"
+:Disp "  PEs=",0.5*K*X*X
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "PEs (J)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto SC
+
+:Lbl CB
+:ClrHome
+:Disp "FIND k (PEs,x)"
+:Disp "SPRING ENERGY"
+:Disp "Spring stores or"
+:Disp "releases energy"
+:Disp "NEED: PEs,x"
+:Pause
+:ClrHome
+:Input "PEs (J)=",E
+:Input "COMPRESS X (M)=",X
+:If X=0
+:Then
+:ClrHome
+:Disp "ERR:DIV/0"
+:Pause
+:Goto SC
+:End
+:2*E/(X*X)->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "PEs=.5*k*x^2"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "k=2*PEs/x^2"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp "2*"+toString(E)+"/"+toString(X)+"^2"
+:Disp "  PEs=",E
+:Disp "  x^2=",X*X
+:Disp "  2*PEs=",2*E
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "k (N/M)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto SC
+
+:Lbl CC
+:ClrHome
+:Disp "FIND x (PEs,k)"
+:Disp "SPRING ENERGY"
+:Disp "Spring stores or"
+:Disp "releases energy"
+:Disp "NEED: PEs,k"
+:Pause
+:ClrHome
+:Input "PEs (J)=",E
+:Input "SPRING K (N/M)=",K
+:If K=0
+:Then
+:ClrHome
+:Disp "ERR:DIV/0"
+:Pause
+:Goto SC
+:End
+:2*E/K->Q
+:If Q<0
+:Then
+:ClrHome
+:Disp "ERR:NEG SQRT"
+:Pause
+:Goto SC
+:End
+:sqrt(Q)->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "PEs=.5*k*x^2"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "x=sqrt(2*PEs/k)"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp "2*"+toString(E)+"/"+toString(K)
+:Disp "  PEs=",E
+:Disp "  k=",K
+:Disp "  inner=",Q
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "x (M)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto SC
+
+:Lbl CD
+:ClrHome
+:Disp "FIND k (m,x)"
+:Disp "HANGING/EQUIL"
+:Disp "Mass hangs/sits"
+:Disp "still on spring"
+:Disp "NEED: m,x"
+:Pause
+:ClrHome
+:Input "MASS (KG)=",M
+:Input "STRETCH X (M)=",X
+:If X=0
+:Then
+:ClrHome
+:Disp "ERR:DIV/0"
+:Pause
+:Goto SC
+:End
+:M*G/X->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "F=kx  AND F=mg"
+:Disp "SO: kx=mg"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "k=mg/x"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(M)+"*9.81/"+toString(X)
+:Disp "  mg=",M*G
+:Disp "  x=",X
+:Disp "  k=",N
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "k (N/M)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto SC
+
+:Lbl CE
+:ClrHome
+:Disp "FIND x (m,k)"
+:Disp "HANGING/EQUIL"
+:Disp "Mass hangs/sits"
+:Disp "still on spring"
+:Disp "NEED: k,m"
+:Pause
+:ClrHome
+:Input "SPRING K (N/M)=",K
+:Input "MASS (KG)=",M
+:If K=0
+:Then
+:ClrHome
+:Disp "ERR:DIV/0"
+:Pause
+:Goto SC
+:End
+:M*G/K->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "kx=mg"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "x=mg/k"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(M)+"*9.81/"+toString(K)
+:Disp "  mg=",M*G
+:Disp "  k=",K
+:Disp "  x=",N
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "x (M)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto SC
+
+:Lbl CF
+:ClrHome
+:Disp "FIND m (k,x)"
+:Disp "HANGING/EQUIL"
+:Disp "Mass hangs/sits"
+:Disp "still on spring"
+:Disp "NEED: k,x"
+:Pause
+:ClrHome
+:Input "SPRING K (N/M)=",K
+:Input "STRETCH X (M)=",X
+:K*X/G->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "kx=mg"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "m=kx/g"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(K)+"*"+toString(X)+"/9.81"
+:Disp "  m=",K*X/G
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "m (KG)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto SC
+
+:Lbl PD
+:ClrHome
+:Menu("PENDULUM","FIND ME",PA,"FIND h (top)",PB,"FIND v (bottom)",PC,"QUIT",ZQ,"<< MAIN",MM)
+
+:Lbl PA
+:ClrHome
+:Disp "FIND ME (pendulum)"
+:Disp "Pendulum swings:"
+:Disp "ME=KE at bottom"
+:Disp "ME=PEg at top"
+:Disp "m(KG) v(M/S) h(M)"
+:Disp "g/1000=KG"
+:Pause
+:ClrHome
+:Disp "Choose known:"
+:Disp "1:USE v(bottom)"
+:Disp "2:USE h(top)"
+:Input "CHOICE (1/2)=",C
+:If C=1
+:Then
+:Input "MASS (KG)=",M
+:Input "VEL BOTTOM(M/S)=",V
+:.5*M*V*V->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "ME=KE at bottom"
+:Disp "ME=.5mv^2"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "ME=.5mv^2"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp ".5*"+toString(M)+"*"+toString(V)+"^2"
+:Disp "  ME=",0.5*M*V*V
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "ME (J)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto PD
+:End
+:Input "MASS (KG)=",M
+:Input "HEIGHT TOP(M)=",H
+:M*G*H->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "ME=PEg at top"
+:Disp "ME=mGh"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "ME=mGh"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(M)+"*9.81*"+toString(H)
+:Disp "  ME=",M*G*H
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "ME (J)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto PD
+
+:Lbl PB
+:ClrHome
+:Disp "FIND h (pendulum)"
+:Disp "Know speed at bottom"
+:Disp "find max height"
+:Disp "h = .5v^2 / G"
+:Disp "v(M/S) to h(M)"
+:Disp "(mass cancels out)"
+:Pause
+:ClrHome
+:Input "VEL BOTTOM(M/S)=",V
+:.5*V*V/G->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp ".5mv^2=mGh"
+:Disp "m cancels:"
+:Disp ".5v^2=Gh"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "h=.5v^2/G"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp ".5*"+toString(V)+"^2/9.81"
+:Disp "  .5v^2=",0.5*V*V
+:Disp "  h=",0.5*V*V/G
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "h (M)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto PD
+
+:Lbl PC
+:ClrHome
+:Disp "FIND v (pendulum)"
+:Disp "Know height at top,"
+:Disp "find speed at bottom"
+:Disp "v = sqrt(2Gh)"
+:Disp "h(M) to v(M/S)"
+:Disp "(mass cancels out)"
+:Pause
+:ClrHome
+:Input "HEIGHT TOP (M)=",H
+:2*G*H->Q
+:If Q<0
+:Then
+:ClrHome
+:Disp "ERR:NEG SQRT"
+:Pause
+:Goto PD
+:End
+:sqrt(Q)->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp ".5v^2=Gh"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "v=sqrt(2Gh)"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp "2*9.81*"+toString(H)
+:Disp "  2Gh=",2*G*H
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "v (M/S)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto PD
+
+:Lbl SK
+:ClrHome
+:Menu("SKIER","FIND v (bottom)",KA,"FIND v (top)",KD,"FIND h (top)",KB,"FIND TE",KC,"QUIT",ZQ,"<< MAIN",MM)
+
+:Lbl KA
+:ClrHome
+:Disp "FIND v (skier bot)"
+:Disp "Skier goes down slope"
+:Disp "friction wastes energy"
+:Disp "MEtop = MEbot + TE"
+:Disp "m(KG) h(M) v(M/S)"
+:Disp "TE=thermal/friction J"
+:Pause
+:ClrHome
+:Input "MASS (KG)=",M
+:Input "HEIGHT (M)=",H
+:Input "VEL TOP (M/S)=",V
+:Input "THERM E (J)=",T
+:M*G*H+.5*M*V*V-T->Q
+:If Q<0
+:Then
+:ClrHome
+:Disp "ERR:NEG SQRT"
+:Pause
+:Goto SK
+:End
+:sqrt(2*Q/M)->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "MEtop=MEbot+TE"
+:Disp "mGh+.5mv^2t"
+:Disp "=.5mv^2b+TE"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "vb=sqrt(2/m*"
+:Disp "(mGh+.5mv_t^2"
+:Disp "-TE))"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(M)+"*9.81*"+toString(H)
+:Disp "  mGh=",M*G*H
+:Disp ".5*"+toString(M)+"*"+toString(V)+"^2"
+:Disp "  KEt=",0.5*M*V*V
+:Disp "  MEtop=",M*G*H+.5*M*V*V
+:Disp "  TE=",T
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "v_bottom (M/S)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto SK
+
+:Lbl KB
+:ClrHome
+:Disp "FIND h (skier top)"
+:Disp "Know both speeds &"
+:Disp "friction: find height"
+:Disp "MEtop = MEbot + TE"
+:Disp "m(KG) v(M/S) TE(J)"
+:Pause
+:ClrHome
+:Input "MASS (KG)=",M
+:Input "VEL BOTTOM(M/S)=",W
+:Input "VEL TOP (M/S)=",V
+:Input "THERM E (J)=",T
+:(.5*M*W*W+T-.5*M*V*V)/(M*G)->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "MEtop=MEbot+TE"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "h=(.5mvb^2+TE"
+:Disp "-.5mvt^2)/(mG)"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp ".5*"+toString(M)+"*"+toString(W)+"^2"
+:Disp "  KEb=",0.5*M*W*W
+:Disp ".5*"+toString(M)+"*"+toString(V)+"^2"
+:Disp "  KEt=",0.5*M*V*V
+:Disp "  TE=",T
+:Disp "  mG=",M*G
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "h (M)="
+:If N=0:Then:Disp 0:Else
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:End
+:Pause
+:Goto SK
+
+:Lbl KC
+:ClrHome
+:Disp "FIND TE (skier)"
+:Disp "Know height & both"
+:Disp "speeds: find heat lost"
+:Disp "TE = MEtop - MEbot"
+:Disp "m(KG) h(M) v(M/S)"
+:Pause
+:ClrHome
+:Input "MASS (KG)=",M
+:Input "HEIGHT (M)=",H
+:Input "VEL TOP (M/S)=",V
+:Input "VEL BOT (M/S)=",W
+:M*G*H+.5*M*V*V-.5*M*W*W->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "TE=MEtop-MEbot"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "TE=mGh+.5mvt^2"
+:Disp "   -.5mvb^2"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(M)+"*9.81*"+toString(H)+"+.5*"+toString(M)+"*"+toString(V)+"^2"
+:Disp "  MEtop=",M*G*H+.5*M*V*V
+:Disp ".5*"+toString(M)+"*"+toString(W)+"^2"
+:Disp "  MEbot=",0.5*M*W*W
+:Disp "  TE=",N
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "TE (J)="
+:If N=0:Then:Disp 0:Else
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:End
+:Pause
+:Goto SK
+
+:Lbl KD
+:ClrHome
+:Disp "FIND v (skier top)"
+:Disp "Know height, bot spd"
+:Disp "& friction: find vt"
+:Disp "MEtop = MEbot + TE"
+:Disp "m(KG) h(M) v(M/S)"
+:Disp "TE=thermal/friction J"
+:Pause
+:ClrHome
+:Input "MASS (KG)=",M
+:Input "HEIGHT (M)=",H
+:Input "VEL BOTTOM(M/S)=",W
+:Input "THERM E (J)=",T
+:W*W+2*T/M-2*G*H->Q
+:If Q<0
+:Then
+:ClrHome
+:Disp "ERR:NEG SQRT"
+:Pause
+:Goto SK
+:End
+:sqrt(Q)->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "mGh+.5mvt^2"
+:Disp "=.5mvb^2+TE"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "vt=sqrt(vb^2"
+:Disp "+2TE/m-2Gh)"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(W)+"^2+2*"+toString(T)+"/"+toString(M)
+:Disp "  vb^2=",W*W
+:Disp "  2TE/m=",2*T/M
+:Disp "  2Gh=",2*G*H
+:Disp "  inner=",Q
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "v_top (M/S)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto SK
+
+:Lbl WM
+:ClrHome
+:Menu("WORK","PUSH/PULL OBJ",WA,"NET WORK",WB,"SPEED CHANGE",WC,"HEIGHT CHANGE",WD,"BRAKE CAR",WE,"QUIT",ZQ,"<< MAIN",MM)
+
+:Lbl WA
+:ClrHome
+:Menu("PUSH/PULL OBJ","FIND W",W1,"FIND F",W2,"FIND d",W3,"FIND ANGLE",W4,"<< WORK",WM)
+
+:Lbl W1
+:ClrHome
+:Disp "FIND W"
+:Disp "Object pushed/pulled"
+:Disp "at an angle"
+:Disp "W = F*d*cos(angle)"
+:Disp "F(N) d(M) ang(deg)"
+:Pause
+:ClrHome
+:Input "FORCE F (N)=",F
+:Input "DISTANCE d (M)=",D
+:Input "ANGLE th (DEG)=",O
+:F*D*cos(O)->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "W=F*d*cos(th)"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "(solving for W)"
+:Disp "W=F*d*cos(th)"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(F)+"*"+toString(D)+"*cos("+toString(O)+")"
+:Disp "  cos=",cos(O)
+:Disp "  W=",N
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "W (J)="
+:If N=0:Then:Disp 0:Else
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:End
+:Pause
+:Goto WA
+
+:Lbl W2
+:ClrHome
+:Disp "FIND F (push/pull)"
+:Disp "Know work done &"
+:Disp "distance, find force"
+:Disp "F = W/(d*cos(ang))"
+:Disp "W(J) d(M) ang(deg)"
+:Pause
+:ClrHome
+:Input "WORK W (J)=",W
+:Input "DISTANCE d (M)=",D
+:Input "ANGLE th (DEG)=",O
+:If D=0 or cos(O)=0
+:Then
+:ClrHome
+:Disp "ERR:DIV/0"
+:Pause
+:Goto WA
+:End
+:W/(D*cos(O))->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "W=F*d*cos(th)"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "F=W/(d*cos(th))"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(W)+"/("+toString(D)+"*cos("+toString(O)+"))"
+:Disp "  cos=",cos(O)
+:Disp "  d*cos=",D*cos(O)
+:Disp "  F=",N
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "F (N)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto WA
+
+:Lbl W3
+:ClrHome
+:Disp "FIND d (push/pull)"
+:Disp "Know work & force,"
+:Disp "find distance moved"
+:Disp "d = W/(F*cos(ang))"
+:Disp "W(J) F(N) ang(deg)"
+:Pause
+:ClrHome
+:Input "WORK W (J)=",W
+:Input "FORCE F (N)=",F
+:Input "ANGLE th (DEG)=",O
+:If F=0 or cos(O)=0
+:Then
+:ClrHome
+:Disp "ERR:DIV/0"
+:Pause
+:Goto WA
+:End
+:W/(F*cos(O))->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "W=F*d*cos(th)"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "d=W/(F*cos(th))"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(W)+"/("+toString(F)+"*cos("+toString(O)+"))"
+:Disp "  cos=",cos(O)
+:Disp "  F*cos=",F*cos(O)
+:Disp "  d=",N
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "d (M)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto WA
+
+:Lbl W4
+:ClrHome
+:Disp "FIND ANGLE"
+:Disp "Know W, F, distance"
+:Disp "find the angle"
+:Disp "cos(ang)=W/(F*d)"
+:Disp "W(J) F(N) d(M)"
+:Pause
+:ClrHome
+:Input "WORK W (J)=",W
+:Input "FORCE F (N)=",F
+:Input "DISTANCE d (M)=",D
+:If F=0 or D=0
+:Then
+:ClrHome
+:Disp "ERR:DIV/0"
+:Pause
+:Goto WA
+:End
+:W/(F*D)->Q
+:If abs(Q)>1
+:Then
+:ClrHome
+:Disp "ERR:CHECK INPUT"
+:Disp "|W/(Fd)|>1"
+:Pause
+:Goto WA
+:End
+:cos^-1(Q)->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "W=F*d*cos(th)"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "th=cos^-1(W/(Fd))"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(W)+"/("+toString(F)+"*"+toString(D)+")"
+:Disp "  W/(Fd)=",Q
+:Disp "  th=cos^-1(",Q
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "theta (DEG)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto WA
+
+:Lbl WB
+:ClrHome
+:Menu("NET WORK","FIND Wnet",NW,"FIND Wapp",NA,"FIND |Wfric|",NF,"<< WORK",WM)
+
+:Lbl NW
+:ClrHome
+:Disp "FIND Wnet"
+:Disp "Total net work on obj"
+:Disp "= applied - friction"
+:Disp "Wnet = Wapp - |Wf|"
+:Disp "all values in J"
+:Pause
+:ClrHome
+:Input "W_applied (J)=",W
+:Input "|W_friction|(J)=",F
+:W-F->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "Wnet=Wapp+Wfric"
+:Disp "Wfric=-|Wfric|"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "Wnet=Wapp-|Wf|"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(W)+"-"+toString(F)
+:Disp "  Wapp=",W
+:Disp "  |Wf|=",F
+:Disp "  Wnet=",W-F
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "Wnet (J)="
+:If N=0:Then:Disp 0:Else
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:End
+:Pause
+:Goto WB
+
+:Lbl NA
+:ClrHome
+:Disp "FIND Wapp"
+:Disp "Applied work done ="
+:Disp "net + friction work"
+:Disp "Wapp = Wnet + |Wf|"
+:Disp "all values in J"
+:Pause
+:ClrHome
+:Input "Wnet (J)=",W
+:Input "|W_friction|(J)=",F
+:W+F->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "Wnet=Wapp-|Wf|"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "Wapp=Wnet+|Wf|"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(W)+"+"+toString(F)
+:Disp "  Wnet=",W
+:Disp "  |Wf|=",F
+:Disp "  Wapp=",W+F
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "Wapp (J)="
+:If N=0:Then:Disp 0:Else
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:End
+:Pause
+:Goto WB
+
+:Lbl NF
+:ClrHome
+:Disp "FIND |Wfric|"
+:Disp "Work done by friction"
+:Disp "= applied - net work"
+:Disp "|Wf| = Wapp - Wnet"
+:Disp "all values in J"
+:Pause
+:ClrHome
+:Input "W_applied (J)=",W
+:Input "Wnet (J)=",U
+:W-U->N
+:If N<0
+:Then
+:ClrHome
+:Disp "ERR:CHECK INPUT"
+:Disp "Wapp<Wnet?"
+:Pause
+:Goto WB
+:End
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "Wnet=Wapp-|Wf|"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "|Wf|=Wapp-Wnet"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(W)+"-"+toString(U)
+:Disp "  Wapp=",W
+:Disp "  Wnet=",U
+:Disp "  |Wf|=",W-U
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "|Wfric| (J)="
+:If N=0:Then:Disp 0:Else
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:End
+:Pause
+:Goto WB
+
+:Lbl WC
+:ClrHome
+:Menu("SPEED CHANGE","FIND W",WC1,"FIND m",WC2,"FIND vi",WC3,"FIND vf",WC4,"<< WORK",WM)
+
+:Lbl WC1
+:ClrHome
+:Disp "FIND W (speed chng)"
+:Disp "Object speeds up or"
+:Disp "slows down"
+:Disp "W = .5m(vf^2-vi^2)"
+:Disp "m(KG) v(M/S)"
+:Disp "g/1000=KG"
+:Pause
+:ClrHome
+:Input "MASS (KG)=",M
+:Input "VEL_i (M/S)=",V
+:Input "VEL_f (M/S)=",W
+:.5*M*(W*W-V*V)->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "W=DKE"
+:Disp "W=.5m(vf^2-vi^2)"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "(solving for W)"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp ".5*"+toString(M)+"*("+toString(W)+"^2-"+toString(V)+"^2)"
+:Disp "  vf^2=",W*W
+:Disp "  vi^2=",V*V
+:Disp "  dv2=",W*W-V*V
+:Disp "  W=",N
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "W (J)="
+:If N=0:Then:Disp 0:Else
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:End
+:Pause
+:Goto WC
+
+:Lbl WC2
+:ClrHome
+:Disp "FIND m (speed chng)"
+:Disp "Know work & speeds,"
+:Disp "find the mass"
+:Disp "m=2W/(vf^2-vi^2)"
+:Disp "W(J) v(M/S)"
+:Pause
+:ClrHome
+:Input "WORK W (J)=",W
+:Input "VEL_i (M/S)=",V
+:Input "VEL_f (M/S)=",U
+:If V=U
+:Then
+:ClrHome
+:Disp "ERR:DIV/0"
+:Disp "vi=vf, W=0"
+:Pause
+:Goto WC
+:End
+:2*W/(U*U-V*V)->N
+:If N<=0
+:Then
+:ClrHome
+:Disp "ERR:CHECK INPUT"
+:Disp "NEG/0 MASS"
+:Pause
+:Goto WC
+:End
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "W=.5m(vf^2-vi^2)"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "m=2W/(vf^2-vi^2)"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp "2*"+toString(W)+"/("+toString(U)+"^2-"+toString(V)+"^2)"
+:Disp "  dv2=",U*U-V*V
+:Disp "  2W=",2*W
+:Disp "  m=",N
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "m (KG)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto WC
+
+:Lbl WC3
+:ClrHome
+:Disp "FIND vi (speed chng)"
+:Disp "Know work,mass,final"
+:Disp "speed: find init spd"
+:Disp "vi=sqrt(vf^2-2W/m)"
+:Disp "W(J) m(KG) v(M/S)"
+:Pause
+:ClrHome
+:Input "WORK W (J)=",W
+:Input "MASS (KG)=",M
+:Input "VEL_f (M/S)=",U
+:U*U-2*W/M->Q
+:If Q<0
+:Then
+:ClrHome
+:Disp "ERR:NEG SQRT"
+:Pause
+:Goto WC
+:End
+:sqrt(Q)->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "W=.5m(vf^2-vi^2)"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "vi=sqrt(vf^2"
+:Disp "-2W/m)"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(U)+"^2-2*"+toString(W)+"/"+toString(M)
+:Disp "  vf^2=",U*U
+:Disp "  2W/m=",2*W/M
+:Disp "  inner=",Q
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "vi (M/S)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto WC
+
+:Lbl WC4
+:ClrHome
+:Disp "FIND vf (speed chng)"
+:Disp "Know work,mass,init"
+:Disp "speed: find final spd"
+:Disp "vf=sqrt(vi^2+2W/m)"
+:Disp "W(J) m(KG) v(M/S)"
+:Pause
+:ClrHome
+:Input "WORK W (J)=",W
+:Input "MASS (KG)=",M
+:Input "VEL_i (M/S)=",V
+:V*V+2*W/M->Q
+:If Q<0
+:Then
+:ClrHome
+:Disp "ERR:NEG SQRT"
+:Pause
+:Goto WC
+:End
+:sqrt(Q)->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "W=.5m(vf^2-vi^2)"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "vf=sqrt(vi^2"
+:Disp "+2W/m)"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(V)+"^2+2*"+toString(W)+"/"+toString(M)
+:Disp "  vi^2=",V*V
+:Disp "  2W/m=",2*W/M
+:Disp "  inner=",Q
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "vf (M/S)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto WC
+
+:Lbl WD
+:ClrHome
+:Menu("HEIGHT CHANGE","FIND W",WD1,"FIND m",WD2,"FIND hf",WD3,"FIND hi",WD4,"<< WORK",WM)
+
+:Lbl WD1
+:ClrHome
+:Disp "FIND W (lift/lower)"
+:Disp "Object lifted or"
+:Disp "lowered: find work"
+:Disp "W = mG(hf-hi)"
+:Disp "m(KG) h(M)"
+:Disp "g/1000=KG"
+:Pause
+:ClrHome
+:Input "MASS (KG)=",M
+:Input "H_initial (M)=",H
+:Input "H_final (M)=",B
+:M*G*(B-H)->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "W=DPEg"
+:Disp "W=mG(hf-hi)"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "(solving for W)"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(M)+"*9.81*("+toString(B)+"-"+toString(H)+")"
+:Disp "  hf-hi=",B-H
+:Disp "  W=",N
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "W (J)="
+:If N=0:Then:Disp 0:Else
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:End
+:Pause
+:Goto WD
+
+:Lbl WD2
+:ClrHome
+:Disp "FIND m (lift/lower)"
+:Disp "Know work & heights,"
+:Disp "find the mass"
+:Disp "m=W/(G*(hf-hi))"
+:Disp "W(J) h(M)"
+:Pause
+:ClrHome
+:Input "WORK W (J)=",W
+:Input "H_initial (M)=",H
+:Input "H_final (M)=",B
+:If B=H
+:Then
+:ClrHome
+:Disp "ERR:DIV/0"
+:Disp "hi=hf"
+:Pause
+:Goto WD
+:End
+:W/(G*(B-H))->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "W=mG(hf-hi)"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "m=W/(G(hf-hi))"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(W)+"/(9.81*("+toString(B)+"-"+toString(H)+"))"
+:Disp "  dh=",B-H
+:Disp "  G*dh=",G*(B-H)
+:Disp "  m=",N
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "m (KG)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto WD
+
+:Lbl WD3
+:ClrHome
+:Disp "FIND hf (final h)"
+:Disp "Know work, mass &"
+:Disp "init height: find hf"
+:Disp "hf = W/(mG) + hi"
+:Disp "W(J) m(KG) h(M)"
+:Pause
+:ClrHome
+:Input "WORK W (J)=",W
+:Input "MASS (KG)=",M
+:Input "H_initial (M)=",H
+:W/(M*G)+H->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "W=mG(hf-hi)"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "hf=W/(mG)+hi"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(W)+"/("+toString(M)+"*9.81)+"+toString(H)
+:Disp "  mG=",M*G
+:Disp "  W/(mG)=",W/(M*G)
+:Disp "  hf=",N
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "hf (M)="
+:If N=0:Then:Disp 0:Else
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:End
+:Pause
+:Goto WD
+
+:Lbl WD4
+:ClrHome
+:Disp "FIND hi (init h)"
+:Disp "Know work, mass &"
+:Disp "final height: find hi"
+:Disp "hi = hf - W/(mG)"
+:Disp "W(J) m(KG) h(M)"
+:Pause
+:ClrHome
+:Input "WORK W (J)=",W
+:Input "MASS (KG)=",M
+:Input "H_final (M)=",B
+:B-W/(M*G)->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "W=mG(hf-hi)"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "hi=hf-W/(mG)"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(B)+"-"+toString(W)+"/("+toString(M)+"*9.81)"
+:Disp "  mG=",M*G
+:Disp "  W/(mG)=",W/(M*G)
+:Disp "  hi=",N
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "hi (M)="
+:If N=0:Then:Disp 0:Else
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:End
+:Pause
+:Goto WD
+
+:Lbl WE
+:ClrHome
+:Menu("BRAKE CAR","FIND d (stop)",WE1,"FIND vi",WE2,"FIND mu",WE3,"<< WORK",WM)
+
+:Lbl WE1
+:ClrHome
+:Disp "FIND d (braking car)"
+:Disp "Car brakes to a stop"
+:Disp "friction does the work"
+:Disp "d=vi^2/(2*mu*g)"
+:Disp "m(KG) vi(M/S) mu=?"
+:Disp "g/1000=KG  km/h/3.6=ms"
+:Pause
+:ClrHome
+:Input "MASS (KG)=",M
+:Input "INIT VEL(M/S)=",V
+:Input "COEF FRIC (mu)=",U
+:If U=0
+:Then
+:ClrHome
+:Disp "ERR:DIV/0"
+:Disp "mu CANNOT BE 0"
+:Pause
+:Goto WE
+:End
+:V*V/(2*U*G)->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "Ffd=.5mvi^2"
+:Disp "Ff=mu*m*g"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "d=vi^2/(2*mu*g)"
+:Disp "(m cancels)"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(V)+"^2/(2*"+toString(U)+"*9.81)"
+:Disp "  vi^2=",V*V
+:Disp "  2*mu*g=",2*U*G
+:Disp "  d=",N
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "d (M)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto WE
+
+:Lbl WE2
+:ClrHome
+:Disp "FIND vi (braking)"
+:Disp "Know stop dist &"
+:Disp "friction: find speed"
+:Disp "vi=sqrt(2*mu*g*d)"
+:Disp "d(M) mu(no units)"
+:Disp "km/h/3.6=M/S"
+:Pause
+:ClrHome
+:Input "STOP DIST (M)=",D
+:Input "COEF FRIC (mu)=",U
+:2*U*G*D->Q
+:If Q<0
+:Then
+:ClrHome
+:Disp "ERR:NEG SQRT"
+:Pause
+:Goto WE
+:End
+:sqrt(Q)->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "d=vi^2/(2*mu*g)"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "vi=sqrt(2*mu*g*d)"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp "2*"+toString(U)+"*9.81*"+toString(D)
+:Disp "  2*mu*g=",2*U*G
+:Disp "  inner=",Q
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "vi (M/S)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto WE
+
+:Lbl WE3
+:ClrHome
+:Disp "FIND mu (friction)"
+:Disp "Know speed & stop"
+:Disp "dist: find friction mu"
+:Disp "mu=vi^2/(2*g*d)"
+:Disp "vi(M/S) d(M)"
+:Disp "km/h/3.6=M/S"
+:Pause
+:ClrHome
+:Input "INIT VEL(M/S)=",V
+:Input "STOP DIST (M)=",D
+:If D=0
+:Then
+:ClrHome
+:Disp "ERR:DIV/0"
+:Pause
+:Goto WE
+:End
+:V*V/(2*G*D)->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "d=vi^2/(2*mu*g)"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "mu=vi^2/(2*g*d)"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(V)+"^2/(2*9.81*"+toString(D)+")"
+:Disp "  vi^2=",V*V
+:Disp "  2gd=",2*G*D
+:Disp "  mu=",N
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "mu (no units)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto WE
+
+:Lbl PM
+:ClrHome
+:Menu("POWER","WORK/TIME",PM1,"FORCE*VEL",PM2,"F*DIST/TIME",PM3,"STAIR CLIMB",PM4,"MOTOR LIFT",PM5,"QUIT",ZQ,"<< MAIN",MM)
+
+:Lbl PM1
+:ClrHome
+:Menu("WORK/TIME","FIND P",P1A,"FIND W",P1B,"FIND t",P1C,"<< POWER",PM)
+
+:Lbl P1A
+:ClrHome
+:Disp "FIND P (power)"
+:Disp "Know work done &"
+:Disp "time: find power"
+:Disp "P = W / t"
+:Disp "W(J) t(S)"
+:Disp "min*60=S"
+:Pause
+:ClrHome
+:Input "WORK W (J)=",W
+:Input "TIME t (S)=",T
+:If T=0
+:Then
+:ClrHome
+:Disp "ERR:DIV/0"
+:Pause
+:Goto PM1
+:End
+:W/T->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "P=W/t"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "(solving for P)"
+:Disp "P=W/t"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(W)+"/"+toString(T)
+:Disp "  W=",W
+:Disp "  t=",T
+:Disp "  P=",W/T
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "P (W)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto PM1
+
+:Lbl P1B
+:ClrHome
+:Disp "FIND W (from power)"
+:Disp "Know power & time,"
+:Disp "find total work done"
+:Disp "W = P * t"
+:Disp "P(W) t(S)"
+:Disp "min*60=S"
+:Pause
+:ClrHome
+:Input "POWER P (W)=",P
+:Input "TIME t (S)=",T
+:P*T->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "P=W/t"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "W=P*t"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(P)+"*"+toString(T)
+:Disp "  P=",P
+:Disp "  t=",T
+:Disp "  W=",P*T
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "W (J)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto PM1
+
+:Lbl P1C
+:ClrHome
+:Disp "FIND t (from power)"
+:Disp "Know power & work,"
+:Disp "find time needed"
+:Disp "t = W / P"
+:Disp "W(J) P(W)"
+:Pause
+:ClrHome
+:Input "POWER P (W)=",P
+:Input "WORK W (J)=",W
+:If P=0
+:Then
+:ClrHome
+:Disp "ERR:DIV/0"
+:Pause
+:Goto PM1
+:End
+:W/P->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "P=W/t"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "t=W/P"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(W)+"/"+toString(P)
+:Disp "  W=",W
+:Disp "  P=",P
+:Disp "  t=",W/P
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "t (S)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto PM1
+
+:Lbl PM2
+:ClrHome
+:Menu("FORCE*VEL","FIND P",P2A,"FIND F",P2B,"FIND v",P2C,"<< POWER",PM)
+
+:Lbl P2A
+:ClrHome
+:Disp "FIND P (force*vel)"
+:Disp "Engine/motor pushing"
+:Disp "at constant velocity"
+:Disp "P = F * v"
+:Disp "F(N) v(M/S)"
+:Disp "km/h/3.6=M/S"
+:Pause
+:ClrHome
+:Input "FORCE F (N)=",F
+:Input "VEL v (M/S)=",V
+:F*V->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "P=F*v"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "(solving for P)"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(F)+"*"+toString(V)
+:Disp "  F=",F
+:Disp "  v=",V
+:Disp "  P=",F*V
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "P (W)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto PM2
+
+:Lbl P2B
+:ClrHome
+:Disp "FIND F (from power)"
+:Disp "Know engine power &"
+:Disp "speed: find drive force"
+:Disp "F = P / v"
+:Disp "P(W) v(M/S)"
+:Disp "km/h/3.6=M/S"
+:Pause
+:ClrHome
+:Input "POWER P (W)=",P
+:Input "VEL v (M/S)=",V
+:If V=0
+:Then
+:ClrHome
+:Disp "ERR:DIV/0"
+:Pause
+:Goto PM2
+:End
+:P/V->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "P=F*v"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "F=P/v"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(P)+"/"+toString(V)
+:Disp "  P=",P
+:Disp "  v=",V
+:Disp "  F=",P/V
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "F (N)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto PM2
+
+:Lbl P2C
+:ClrHome
+:Disp "FIND v (from power)"
+:Disp "Know power & force,"
+:Disp "find the velocity"
+:Disp "v = P / F"
+:Disp "P(W) F(N)"
+:Pause
+:ClrHome
+:Input "POWER P (W)=",P
+:Input "FORCE F (N)=",F
+:If F=0
+:Then
+:ClrHome
+:Disp "ERR:DIV/0"
+:Pause
+:Goto PM2
+:End
+:P/F->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "P=F*v"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "v=P/F"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(P)+"/"+toString(F)
+:Disp "  P=",P
+:Disp "  F=",F
+:Disp "  v=",P/F
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "v (M/S)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto PM2
+
+:Lbl PM3
+:ClrHome
+:Menu("F*DIST/TIME","FIND P",P3A,"FIND F",P3B,"FIND d",P3C,"FIND t",P3D,"<< POWER",PM)
+
+:Lbl P3A
+:ClrHome
+:Disp "FIND P (F*d/t)"
+:Disp "Know force, distance"
+:Disp "& time: find power"
+:Disp "P = F*d / t"
+:Disp "F(N) d(M) t(S)"
+:Disp "min*60=S"
+:Pause
+:ClrHome
+:Input "FORCE F (N)=",F
+:Input "DISTANCE d (M)=",D
+:Input "TIME t (S)=",T
+:If T=0
+:Then
+:ClrHome
+:Disp "ERR:DIV/0"
+:Pause
+:Goto PM3
+:End
+:F*D/T->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "P=F*d/t"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "(solving for P)"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(F)+"*"+toString(D)+"/"+toString(T)
+:Disp "  F*d=",F*D
+:Disp "  t=",T
+:Disp "  P=",F*D/T
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "P (W)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto PM3
+
+:Lbl P3B
+:ClrHome
+:Disp "FIND F (from P,d,t)"
+:Disp "Know power, dist"
+:Disp "& time: find force"
+:Disp "F = P*t / d"
+:Disp "P(W) d(M) t(S)"
+:Pause
+:ClrHome
+:Input "POWER P (W)=",P
+:Input "DISTANCE d (M)=",D
+:Input "TIME t (S)=",T
+:If D=0
+:Then
+:ClrHome
+:Disp "ERR:DIV/0"
+:Pause
+:Goto PM3
+:End
+:P*T/D->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "P=F*d/t"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "F=P*t/d"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(P)+"*"+toString(T)+"/"+toString(D)
+:Disp "  P*t=",P*T
+:Disp "  d=",D
+:Disp "  F=",N
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "F (N)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto PM3
+
+:Lbl P3C
+:ClrHome
+:Disp "FIND d (from P,F,t)"
+:Disp "Know power, force"
+:Disp "& time: find distance"
+:Disp "d = P*t / F"
+:Disp "P(W) F(N) t(S)"
+:Pause
+:ClrHome
+:Input "POWER P (W)=",P
+:Input "FORCE F (N)=",F
+:Input "TIME t (S)=",T
+:If F=0
+:Then
+:ClrHome
+:Disp "ERR:DIV/0"
+:Pause
+:Goto PM3
+:End
+:P*T/F->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "P=F*d/t"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "d=P*t/F"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(P)+"*"+toString(T)+"/"+toString(F)
+:Disp "  P*t=",P*T
+:Disp "  F=",F
+:Disp "  d=",N
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "d (M)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto PM3
+
+:Lbl P3D
+:ClrHome
+:Disp "FIND t (from P,F,d)"
+:Disp "Know power, force"
+:Disp "& distance: find time"
+:Disp "t = F*d / P"
+:Disp "P(W) F(N) d(M)"
+:Pause
+:ClrHome
+:Input "POWER P (W)=",P
+:Input "FORCE F (N)=",F
+:Input "DISTANCE d (M)=",D
+:If P=0
+:Then
+:ClrHome
+:Disp "ERR:DIV/0"
+:Pause
+:Goto PM3
+:End
+:F*D/P->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "P=F*d/t"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "t=F*d/P"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(F)+"*"+toString(D)+"/"+toString(P)
+:Disp "  F*d=",F*D
+:Disp "  P=",P
+:Disp "  t=",N
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "t (S)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto PM3
+
+:Lbl PM4
+:ClrHome
+:Disp "STAIR CLIMBING"
+:Disp "Person climbs stairs"
+:Disp "find work & power"
+:Disp "W=mGh  P=W/t"
+:Disp "m(KG) h(M) t(S)"
+:Disp "g/1000=KG  min*60=S"
+:Pause
+:ClrHome
+:Input "MASS (KG)=",M
+:Input "HEIGHT (M)=",H
+:Input "TIME t (S)=",T
+:M*G*H->W
+:If T=0
+:Then
+:ClrHome
+:Disp "ERR:DIV/0"
+:Pause
+:Goto PM
+:End
+:W/T->P
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "W=mGh"
+:Disp "P=W/t"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "(solving W then P)"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(M)+"*9.81*"+toString(H)
+:Disp "  W=",W
+:Disp toString(W)+"/"+toString(T)
+:Disp "  P=",P
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "W (J)="
+:round(W,2-int(log(abs(W))))->N
+:Disp N
+:Disp "P (W)="
+:round(P,2-int(log(abs(P))))->N
+:Disp N
+:Pause
+:Goto PM
+
+:Lbl PM5
+:ClrHome
+:Menu("MOTOR LIFT","FIND h",PM5A,"FIND m",PM5B,"FIND t",PM5C,"FIND P",PM5D,"<< POWER",PM)
+
+:Lbl PM5A
+:ClrHome
+:Disp "FIND h (motor lift)"
+:Disp "Motor lifts an object"
+:Disp "find max height"
+:Disp "h = P*t / (mG)"
+:Disp "P(W) t(S) m(KG)"
+:Disp "g/1000=KG  min*60=S"
+:Pause
+:ClrHome
+:Input "POWER P (W)=",P
+:Input "TIME t (S)=",T
+:Input "MASS (KG)=",M
+:If M=0
+:Then
+:ClrHome
+:Disp "ERR:DIV/0"
+:Pause
+:Goto PM5
+:End
+:P*T/(M*G)->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "P*t=W=mGh"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "h=P*t/(mG)"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(P)+"*"+toString(T)+"/("+toString(M)+"*9.81)"
+:Disp "  P*t=",P*T
+:Disp "  mG=",M*G
+:Disp "  h=",N
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "h (M)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto PM5
+
+:Lbl PM5B
+:ClrHome
+:Disp "FIND m (motor lift)"
+:Disp "Motor lifts an object"
+:Disp "find object mass"
+:Disp "m = P*t / (Gh)"
+:Disp "P(W) t(S) h(M)"
+:Pause
+:ClrHome
+:Input "POWER P (W)=",P
+:Input "TIME t (S)=",T
+:Input "HEIGHT h (M)=",H
+:If H=0
+:Then
+:ClrHome
+:Disp "ERR:DIV/0"
+:Pause
+:Goto PM5
+:End
+:P*T/(G*H)->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "P*t=mGh"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "m=P*t/(Gh)"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(P)+"*"+toString(T)+"/(9.81*"+toString(H)+")"
+:Disp "  P*t=",P*T
+:Disp "  Gh=",G*H
+:Disp "  m=",N
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "m (KG)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto PM5
+
+:Lbl PM5C
+:ClrHome
+:Disp "FIND t (motor lift)"
+:Disp "Motor lifts an object"
+:Disp "find time needed"
+:Disp "t = mGh / P"
+:Disp "P(W) m(KG) h(M)"
+:Disp "g/1000=KG"
+:Pause
+:ClrHome
+:Input "POWER P (W)=",P
+:Input "MASS (KG)=",M
+:Input "HEIGHT h (M)=",H
+:If P=0
+:Then
+:ClrHome
+:Disp "ERR:DIV/0"
+:Pause
+:Goto PM5
+:End
+:M*G*H/P->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "P*t=mGh"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "t=mGh/P"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(M)+"*9.81*"+toString(H)+"/"+toString(P)
+:Disp "  mGh=",M*G*H
+:Disp "  P=",P
+:Disp "  t=",N
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "t (S)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto PM5
+
+:Lbl PM5D
+:ClrHome
+:Disp "FIND P (motor lift)"
+:Disp "Motor lifts an object"
+:Disp "find power needed"
+:Disp "P = mGh / t"
+:Disp "m(KG) h(M) t(S)"
+:Disp "g/1000=KG  min*60=S"
+:Pause
+:ClrHome
+:Input "MASS (KG)=",M
+:Input "HEIGHT h (M)=",H
+:Input "TIME t (S)=",T
+:If T=0
+:Then
+:ClrHome
+:Disp "ERR:DIV/0"
+:Pause
+:Goto PM5
+:End
+:M*G*H/T->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "P=mGh/t"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "(solving for P)"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(M)+"*9.81*"+toString(H)+"/"+toString(T)
+:Disp "  mGh=",M*G*H
+:Disp "  t=",T
+:Disp "  P=",N
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "P (W)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto PM5
+
+:Lbl IF
+:ClrHome
+:Menu("FORMULAS","PEg",IFG,"PEs",IFS,"KE",IFK,"TE",IFT,"CONS.ENERGY",IFC,"QUIT",ZQ,"<< MAIN",MM)
+
+:Lbl IFG
+:ClrHome
+:Menu("PEg","FIND PEg",IG1,"FIND m",IG2,"FIND h",IG3,"<< FORMS",IF)
+
+:Lbl IG1
+:ClrHome
+:Disp "FIND PEg"
+:Disp "NEED: m,h"
+:Pause
+:ClrHome
+:Input "MASS (KG)=",M
+:Input "HEIGHT (M)=",H
+:M*G*H->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "PEg=m*G*h"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "(solving for PEg)"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(M)+"*9.81*"+toString(H)
+:Disp "  PEg=",M*G*H
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "PEg (J)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto IFG
+
+:Lbl IG2
+:ClrHome
+:Disp "FIND m"
+:Disp "NEED: PEg,h"
+:Pause
+:ClrHome
+:Input "PEg (J)=",E
+:Input "HEIGHT (M)=",H
+:If H=0
+:Then
+:ClrHome
+:Disp "ERR:DIV/0"
+:Pause
+:Goto IFG
+:End
+:E/(G*H)->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "PEg=m*G*h"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "m=PEg/(G*h)"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(E)+"/(9.81*"+toString(H)+")"
+:Disp "  G*h=",G*H
+:Disp "  m=",N
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "m (KG)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto IFG
+
+:Lbl IG3
+:ClrHome
+:Disp "FIND h"
+:Disp "NEED: PEg,m"
+:Pause
+:ClrHome
+:Input "PEg (J)=",E
+:Input "MASS (KG)=",M
+:If M=0
+:Then
+:ClrHome
+:Disp "ERR:DIV/0"
+:Pause
+:Goto IFG
+:End
+:E/(M*G)->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "PEg=m*G*h"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "h=PEg/(m*G)"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(E)+"/("+toString(M)+"*9.81)"
+:Disp "  m*G=",M*G
+:Disp "  h=",N
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "h (M)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto IFG
+
+:Lbl IFS
+:ClrHome
+:Menu("PEs","FIND PEs",IS1,"FIND k",IS2,"FIND x",IS3,"<< FORMS",IF)
+
+:Lbl IS1
+:ClrHome
+:Disp "FIND PEs"
+:Disp "NEED: k,x"
+:Pause
+:ClrHome
+:Input "SPRING K (N/M)=",K
+:Input "COMPRESS X (M)=",X
+:.5*K*X*X->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "PEs=.5*k*x^2"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "(solving for PEs)"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp ".5*"+toString(K)+"*"+toString(X)+"^2"
+:Disp "  PEs=",0.5*K*X*X
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "PEs (J)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto IFS
+
+:Lbl IS2
+:ClrHome
+:Disp "FIND k"
+:Disp "NEED: PEs,x"
+:Pause
+:ClrHome
+:Input "PEs (J)=",E
+:Input "COMPRESS X (M)=",X
+:If X=0
+:Then
+:ClrHome
+:Disp "ERR:DIV/0"
+:Pause
+:Goto IFS
+:End
+:2*E/(X*X)->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "PEs=.5*k*x^2"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "k=2*PEs/x^2"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp "2*"+toString(E)+"/"+toString(X)+"^2"
+:Disp "  x^2=",X*X
+:Disp "  2*PEs=",2*E
+:Disp "  k=",N
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "k (N/M)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto IFS
+
+:Lbl IS3
+:ClrHome
+:Disp "FIND x"
+:Disp "NEED: PEs,k"
+:Pause
+:ClrHome
+:Input "PEs (J)=",E
+:Input "SPRING K (N/M)=",K
+:If K=0
+:Then
+:ClrHome
+:Disp "ERR:DIV/0"
+:Pause
+:Goto IFS
+:End
+:2*E/K->Q
+:If Q<0
+:Then
+:ClrHome
+:Disp "ERR:NEG SQRT"
+:Pause
+:Goto IFS
+:End
+:sqrt(Q)->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "PEs=.5*k*x^2"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "x=sqrt(2*PEs/k)"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp "2*"+toString(E)+"/"+toString(K)
+:Disp "  inner=",Q
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "x (M)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto IFS
+
+:Lbl IFK
+:ClrHome
+:Menu("KE","FIND KE",IK1,"FIND m",IK2,"FIND v",IK3,"<< FORMS",IF)
+
+:Lbl IK1
+:ClrHome
+:Disp "FIND KE"
+:Disp "NEED: m,v"
+:Pause
+:ClrHome
+:Input "MASS (KG)=",M
+:Input "VEL v (M/S)=",V
+:.5*M*V*V->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "KE=.5*m*v^2"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "(solving for KE)"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp ".5*"+toString(M)+"*"+toString(V)+"^2"
+:Disp "  KE=",0.5*M*V*V
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "KE (J)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto IFK
+
+:Lbl IK2
+:ClrHome
+:Disp "FIND m"
+:Disp "NEED: KE,v"
+:Pause
+:ClrHome
+:Input "KE (J)=",E
+:Input "VEL v (M/S)=",V
+:If V=0
+:Then
+:ClrHome
+:Disp "ERR:DIV/0"
+:Pause
+:Goto IFK
+:End
+:2*E/(V*V)->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "KE=.5*m*v^2"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "m=2*KE/v^2"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp "2*"+toString(E)+"/"+toString(V)+"^2"
+:Disp "  v^2=",V*V
+:Disp "  2*KE=",2*E
+:Disp "  m=",N
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "m (KG)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto IFK
+
+:Lbl IK3
+:ClrHome
+:Disp "FIND v"
+:Disp "NEED: KE,m"
+:Pause
+:ClrHome
+:Input "KE (J)=",E
+:Input "MASS (KG)=",M
+:If M=0
+:Then
+:ClrHome
+:Disp "ERR:DIV/0"
+:Pause
+:Goto IFK
+:End
+:2*E/M->Q
+:If Q<0
+:Then
+:ClrHome
+:Disp "ERR:NEG SQRT"
+:Pause
+:Goto IFK
+:End
+:sqrt(Q)->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "KE=.5*m*v^2"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "v=sqrt(2*KE/m)"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp "2*"+toString(E)+"/"+toString(M)
+:Disp "  inner=",Q
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "v (M/S)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto IFK
+
+:Lbl IFT
+:ClrHome
+:Menu("TE","FIND TE",IT1,"FIND Ff",IT2,"FIND d",IT3,"<< FORMS",IF)
+
+:Lbl IT1
+:ClrHome
+:Disp "FIND TE"
+:Disp "NEED: Ff,d"
+:Pause
+:ClrHome
+:Input "FRIC FORCE(N)=",F
+:Input "DISTANCE d(M)=",D
+:F*D->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "TE=Ff*d"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "(solving for TE)"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(F)+"*"+toString(D)
+:Disp "  TE=",F*D
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "TE (J)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto IFT
+
+:Lbl IT2
+:ClrHome
+:Disp "FIND Ff"
+:Disp "NEED: TE,d"
+:Pause
+:ClrHome
+:Input "TE (J)=",E
+:Input "DISTANCE d(M)=",D
+:If D=0
+:Then
+:ClrHome
+:Disp "ERR:DIV/0"
+:Pause
+:Goto IFT
+:End
+:E/D->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "TE=Ff*d"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "Ff=TE/d"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(E)+"/"+toString(D)
+:Disp "  Ff=",E/D
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "Ff (N)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto IFT
+
+:Lbl IT3
+:ClrHome
+:Disp "FIND d"
+:Disp "NEED: TE,Ff"
+:Pause
+:ClrHome
+:Input "TE (J)=",E
+:Input "FRIC FORCE(N)=",F
+:If F=0
+:Then
+:ClrHome
+:Disp "ERR:DIV/0"
+:Pause
+:Goto IFT
+:End
+:E/F->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "TE=Ff*d"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "d=TE/Ff"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(E)+"/"+toString(F)
+:Disp "  d=",E/F
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "d (M)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto IFT
+
+:Lbl IFC
+:ClrHome
+:Disp "CONS. ENERGY"
+:Disp "MEA=MEB+TE"
+:Disp "Enter 0 for"
+:Disp "any unknown"
+:Pause
+:ClrHome
+:Menu("CONS.ENERGY","FIND vB",IC1,"FIND vA",IC2,"FIND hB",IC3,"FIND hA",IC4,"FIND TE",IC5,"<< FORMS",IF)
+
+:Lbl IC1
+:ClrHome
+:Disp "FIND vB"
+:Disp "MEA=mGhA+.5mvA^2"
+:Disp "MEB=mGhB+.5mvB^2"
+:Pause
+:ClrHome
+:Input "MASS m(KG)=",M
+:Input "hA (M)=",H
+:Input "vA (M/S)=",V
+:Input "hB (M)=",B
+:Input "PEsA (J)=",S
+:Input "PEsB (J)=",Q
+:Input "TE (J)=",T
+:M*G*H+.5*M*V*V+S-M*G*B-Q-T->R
+:If R<0
+:Then
+:ClrHome
+:Disp "ERR:NEG SQRT"
+:Pause
+:Goto IFC
+:End
+:sqrt(2*R/M)->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "MEA=MEB+TE"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "vB=sqrt(2/m*"
+:Disp "(MEA-mGhB-PEsB"
+:Disp "-TE))"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(M)+"*9.81*"+toString(H)+"+.5*"+toString(M)+"*"+toString(V)+"^2"
+:Disp "  MEA=",M*G*H+.5*M*V*V+S
+:Disp toString(M)+"*9.81*"+toString(B)
+:Disp "  mGhB=",M*G*B
+:Disp "  PEsB=",Q
+:Disp "  TE=",T
+:Disp "  inner=",R
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "vB (M/S)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto IFC
+
+:Lbl IC2
+:ClrHome
+:Disp "FIND vA"
+:Pause
+:ClrHome
+:Input "MASS m(KG)=",M
+:Input "hA (M)=",H
+:Input "hB (M)=",B
+:Input "vB (M/S)=",W
+:Input "PEsA (J)=",S
+:Input "PEsB (J)=",Q
+:Input "TE (J)=",T
+:M*G*B+.5*M*W*W+Q+T-M*G*H-S->R
+:If R<0
+:Then
+:ClrHome
+:Disp "ERR:NEG SQRT"
+:Pause
+:Goto IFC
+:End
+:sqrt(2*R/M)->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "MEA=MEB+TE"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "vA=sqrt(2/m*"
+:Disp "(MEB+TE-mGhA"
+:Disp "-PEsA))"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(M)+"*9.81*"+toString(B)+"+.5*"+toString(M)+"*"+toString(W)+"^2"
+:Disp "  MEB=",M*G*B+.5*M*W*W+Q
+:Disp "  TE=",T
+:Disp "  mGhA=",M*G*H
+:Disp "  PEsA=",S
+:Disp "  inner=",R
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "vA (M/S)="
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:Pause
+:Goto IFC
+
+:Lbl IC3
+:ClrHome
+:Disp "FIND hB"
+:Pause
+:ClrHome
+:Input "MASS m(KG)=",M
+:Input "hA (M)=",H
+:Input "vA (M/S)=",V
+:Input "vB (M/S)=",W
+:Input "PEsA (J)=",S
+:Input "PEsB (J)=",Q
+:Input "TE (J)=",T
+:(M*G*H+.5*M*V*V+S-.5*M*W*W-Q-T)/(M*G)->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "MEA=MEB+TE"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "hB=(MEA-.5mvB^2"
+:Disp "-PEsB-TE)/(mG)"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(M)+"*9.81*"+toString(H)+"+.5*"+toString(M)+"*"+toString(V)+"^2"
+:Disp "  MEA=",M*G*H+.5*M*V*V+S
+:Disp ".5*"+toString(M)+"*"+toString(W)+"^2"
+:Disp "  KEb=",0.5*M*W*W
+:Disp "  PEsB=",Q
+:Disp "  TE=",T
+:Disp "  mG=",M*G
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "hB (M)="
+:If N=0:Then:Disp 0:Else
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:End
+:Pause
+:Goto IFC
+
+:Lbl IC4
+:ClrHome
+:Disp "FIND hA"
+:Pause
+:ClrHome
+:Input "MASS m(KG)=",M
+:Input "hB (M)=",B
+:Input "vA (M/S)=",V
+:Input "vB (M/S)=",W
+:Input "PEsA (J)=",S
+:Input "PEsB (J)=",Q
+:Input "TE (J)=",T
+:(M*G*B+.5*M*W*W+Q+T-.5*M*V*V-S)/(M*G)->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "MEA=MEB+TE"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "hA=(MEB+TE"
+:Disp "-.5mvA^2+PEsA)"
+:Disp "   /(mG)"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(M)+"*9.81*"+toString(B)+"+.5*"+toString(M)+"*"+toString(W)+"^2"
+:Disp "  MEB=",M*G*B+.5*M*W*W+Q
+:Disp "  TE=",T
+:Disp ".5*"+toString(M)+"*"+toString(V)+"^2"
+:Disp "  KEa=",0.5*M*V*V
+:Disp "  mG=",M*G
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "hA (M)="
+:If N=0:Then:Disp 0:Else
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:End
+:Pause
+:Goto IFC
+
+:Lbl IC5
+:ClrHome
+:Disp "FIND TE"
+:Pause
+:ClrHome
+:Input "MASS m(KG)=",M
+:Input "hA (M)=",H
+:Input "vA (M/S)=",V
+:Input "hB (M)=",B
+:Input "vB (M/S)=",W
+:Input "PEsA (J)=",S
+:Input "PEsB (J)=",Q
+:M*G*H+.5*M*V*V+S-(M*G*B+.5*M*W*W+Q)->N
+:ClrHome
+:Disp "STEP1:FORMULA"
+:Disp "TE=MEA-MEB"
+:Pause
+:ClrHome
+:Disp "STEP2:REARRANGE"
+:Disp "TE=mGhA+.5mvA^2"
+:Disp "+PEsA-mGhB"
+:Disp "-.5mvB^2-PEsB"
+:Pause
+:ClrHome
+:Disp "STEP3:PLUG IN"
+:Disp toString(M)+"*9.81*"+toString(H)+"+.5*"+toString(M)+"*"+toString(V)+"^2"
+:Disp "  MEA=",M*G*H+.5*M*V*V+S
+:Disp toString(M)+"*9.81*"+toString(B)+"+.5*"+toString(M)+"*"+toString(W)+"^2"
+:Disp "  MEB=",M*G*B+.5*M*W*W+Q
+:Disp "  TE=",N
+:Pause
+:ClrHome
+:Disp "STEP4:ANSWER"
+:Disp "TE (J)="
+:If N=0:Then:Disp 0:Else
+:round(N,2-int(log(abs(N))))->N
+:Disp N
+:End
+:Pause
+:Goto IFC
+
+:Lbl CV
+:ClrHome
+:Menu("CONVERTER","LENGTH",C1,"MASS",C2,"SPEED",C3,"TIME",C4,"ENERGY",C5,"QUIT",ZQ,"<< MORE",ZX)
+
+:Lbl C1
+:ClrHome
+:Menu("LENGTH","cm to m",D1,"mm to m",D2,"km to m",D3,"m to cm",D4,"<< CONV",CV)
+
+:Lbl D1
+:ClrHome
+:Disp "cm to m"
+:Disp "divide by 100"
+:Input "VALUE (cm)=",X
+:X/100->N
+:ClrHome
+:Disp "RESULT (M)="
+:Disp N
+:Pause
+:Goto C1
+
+:Lbl D2
+:ClrHome
+:Disp "mm to m"
+:Disp "divide by 1000"
+:Input "VALUE (mm)=",X
+:X/1000->N
+:ClrHome
+:Disp "RESULT (M)="
+:Disp N
+:Pause
+:Goto C1
+
+:Lbl D3
+:ClrHome
+:Disp "km to m"
+:Disp "multiply by 1000"
+:Input "VALUE (km)=",X
+:X*1000->N
+:ClrHome
+:Disp "RESULT (M)="
+:Disp N
+:Pause
+:Goto C1
+
+:Lbl D4
+:ClrHome
+:Disp "m to cm"
+:Disp "multiply by 100"
+:Input "VALUE (M)=",X
+:X*100->N
+:ClrHome
+:Disp "RESULT (CM)="
+:Disp N
+:Pause
+:Goto C1
+
+:Lbl C2
+:ClrHome
+:Menu("MASS","g to kg",D5,"kg to g",D6,"mg to kg",D7,"<< CONV",CV)
+
+:Lbl D5
+:ClrHome
+:Disp "g to kg"
+:Disp "divide by 1000"
+:Input "VALUE (g)=",X
+:X/1000->N
+:ClrHome
+:Disp "RESULT (KG)="
+:Disp N
+:Pause
+:Goto C2
+
+:Lbl D6
+:ClrHome
+:Disp "kg to g"
+:Disp "multiply by 1000"
+:Input "VALUE (KG)=",X
+:X*1000->N
+:ClrHome
+:Disp "RESULT (G)="
+:Disp N
+:Pause
+:Goto C2
+
+:Lbl D7
+:ClrHome
+:Disp "mg to kg"
+:Disp "divide by 1000000"
+:Input "VALUE (mg)=",X
+:X/1000000->N
+:ClrHome
+:Disp "RESULT (KG)="
+:Disp N
+:Pause
+:Goto C2
+
+:Lbl C3
+:ClrHome
+:Menu("SPEED","km/h to m/s",D8,"m/s to km/h",D9,"mph to m/s",E1,"<< CONV",CV)
+
+:Lbl D8
+:ClrHome
+:Disp "km/h to m/s"
+:Disp "divide by 3.6"
+:Input "VALUE (km/h)=",X
+:X/3.6->N
+:ClrHome
+:Disp "RESULT (M/S)="
+:Disp N
+:Pause
+:Goto C3
+
+:Lbl D9
+:ClrHome
+:Disp "m/s to km/h"
+:Disp "multiply by 3.6"
+:Input "VALUE (M/S)=",X
+:X*3.6->N
+:ClrHome
+:Disp "RESULT (km/h)="
+:Disp N
+:Pause
+:Goto C3
+
+:Lbl E1
+:ClrHome
+:Disp "mph to m/s"
+:Disp "multiply by 0.44704"
+:Input "VALUE (mph)=",X
+:X*0.44704->N
+:ClrHome
+:Disp "RESULT (M/S)="
+:Disp N
+:Pause
+:Goto C3
+
+:Lbl C4
+:ClrHome
+:Menu("TIME","min to s",E2,"hr to s",E3,"hr to min",E4,"<< CONV",CV)
+
+:Lbl E2
+:ClrHome
+:Disp "min to s"
+:Disp "multiply by 60"
+:Input "VALUE (min)=",X
+:X*60->N
+:ClrHome
+:Disp "RESULT (S)="
+:Disp N
+:Pause
+:Goto C4
+
+:Lbl E3
+:ClrHome
+:Disp "hr to s"
+:Disp "multiply by 3600"
+:Input "VALUE (hr)=",X
+:X*3600->N
+:ClrHome
+:Disp "RESULT (S)="
+:Disp N
+:Pause
+:Goto C4
+
+:Lbl E4
+:ClrHome
+:Disp "hr to min"
+:Disp "multiply by 60"
+:Input "VALUE (hr)=",X
+:X*60->N
+:ClrHome
+:Disp "RESULT (min)="
+:Disp N
+:Pause
+:Goto C4
+
+:Lbl C5
+:ClrHome
+:Menu("ENERGY/FORCE","kJ to J",E5,"J to kJ",E6,"N to kg",E7,"<< CONV",CV)
+
+:Lbl E5
+:ClrHome
+:Disp "kJ to J"
+:Disp "multiply by 1000"
+:Input "VALUE (kJ)=",X
+:X*1000->N
+:ClrHome
+:Disp "RESULT (J)="
+:Disp N
+:Pause
+:Goto C5
+
+:Lbl E6
+:ClrHome
+:Disp "J to kJ"
+:Disp "divide by 1000"
+:Input "VALUE (J)=",X
+:X/1000->N
+:ClrHome
+:Disp "RESULT (kJ)="
+:Disp N
+:Pause
+:Goto C5
+
+:Lbl E7
+:ClrHome
+:Disp "N to kg (weight)"
+:Disp "divide by 9.81"
+:Disp "force in N to mass"
+:Input "VALUE (N)=",X
+:X/G->N
+:ClrHome
+:Disp "RESULT (KG)="
+:Disp N
+:Pause
+:Goto C5
+
+:Lbl AK
+:Menu("ANS KEY","Q 1-10",A1,"Q 11-20",A2,"Q 21-30",A3,"<< MORE",ZX)
+
+:Lbl A1
+:ClrHome
+:Disp "Q1: WORK"
+:Disp "For work,force"
+:Disp "must have a"
+:Disp "component in___"
+:Disp "direction"
+:Disp "ANS:C-SAME AS"
+:Disp "DISPLACEMENT"
+:Pause
+:ClrHome
+:Disp "Q2: ENERGY TYPE"
+:Disp "Motionless book"
+:Disp "on shelf has___"
+:Disp "energy"
+:Disp "ANS:C-GRAV"
+:Disp "POTENTIAL"
+:Pause
+:ClrHome
+:Disp "Q3: PENDULUM"
+:Disp "Highest to"
+:Disp "lowest pt,PE"
+:Disp "converts to___"
+:Disp "ANS:B-KE"
+:Pause
+:ClrHome
+:Disp "Q4: WORK"
+:Disp "Push wall,wall"
+:Disp "doesn't move."
+:Disp "Work done=___"
+:Disp "ANS: C - ZERO"
+:Pause
+:ClrHome
+:Disp "Q5: POWER"
+:Disp "Same work:A=10s"
+:Disp "B=20s. A vs B"
+:Disp "has ___"
+:Disp "ANS:C-MORE"
+:Disp "POWER"
+:Pause
+:ClrHome
+:Disp "Q6: SPRING"
+:Disp "Stretched spring"
+:Disp "stores___ energy"
+:Disp "ANS:C-ELASTIC"
+:Disp "POTENTIAL"
+:Pause
+:ClrHome
+:Disp "Q7: FRICTION"
+:Disp "Friction on"
+:Disp "sliding obj,mech"
+:Disp "E to ___ energy"
+:Disp "ANS:D-THERMAL"
+:Pause
+:ClrHome
+:Disp "Q8: SKYDIVER"
+:Disp "Falling before"
+:Disp "chute,grav PE"
+:Disp "does___"
+:Disp "ANS:C - KE"
+:Pause
+:ClrHome
+:Disp "Q9: VACUUM DROP"
+:Disp "Feather vs ball"
+:Disp "same ht,vacuum."
+:Disp "More KE at bot?"
+:Disp "ANS:B-BOWLING"
+:Disp "BALL(heavier)"
+:Pause
+:ClrHome
+:Disp "Q10:CONS ENERGY"
+:Disp "Total E of"
+:Disp "closed system"
+:Disp "does___"
+:Disp "ANS:C-REMAINS"
+:Disp "CONSTANT"
+:Pause
+:Goto AK
+
+:Lbl A2
+:ClrHome
+:Disp "Q11: KE"
+:Disp "High speed car"
+:Disp "more KE(same m)"
+:Disp "KE depends on__"
+:Disp "ANS:B-V SQUARED"
+:Pause
+:ClrHome
+:Disp "Q12: GRAV PE"
+:Disp "Grav PE up when"
+:Disp "object's___ up"
+:Disp "ANS:C-HEIGHT"
+:Pause
+:ClrHome
+:Disp "Q13:POWER/WATTS"
+:Disp "Higher watt bulb"
+:Disp "vs lower:___"
+:Disp "ANS:B-CONVERT E"
+:Disp "FASTER"
+:Pause
+:ClrHome
+:Disp "Q14: BALL THROW"
+:Disp "Ball thrown up"
+:Disp "slows,KE to ___"
+:Disp "ANS:C-GRAV PE"
+:Pause
+:ClrHome
+:Disp "Q15:EFFICIENCY"
+:Disp "Machine:output="
+:Disp "input. ___"
+:Disp "efficient"
+:Disp "ANS:C-100%"
+:Pause
+:ClrHome
+:Disp "Q16: WORK DEF"
+:Disp "Work=___energy"
+:Disp "from one system"
+:Disp "to another"
+:Disp "ANS:B-TRANSFER"
+:Pause
+:ClrHome
+:Disp "Q17: WORK"
+:Disp "Force applied,"
+:Disp "no movement."
+:Disp "Work done=___"
+:Disp "ANS: C - ZERO"
+:Pause
+:ClrHome
+:Disp "Q18: BALL UP"
+:Disp "Ball thrown up,"
+:Disp "KE to ___ energy"
+:Disp "as it rises"
+:Disp "ANS:C-GRAV PE"
+:Pause
+:ClrHome
+:Disp "Q19: POWER"
+:Disp "Power measures"
+:Disp "how___ work is"
+:Disp "performed"
+:Disp "ANS: B - FAST"
+:Pause
+:ClrHome
+:Disp "Q20: KE"
+:Disp "KE proportional"
+:Disp "to the___ of"
+:Disp "speed"
+:Disp "ANS:A-SQUARE"
+:Pause
+:Goto AK
+
+:Lbl A3
+:ClrHome
+:Disp "Q21:CONS ENERGY"
+:Disp "Closed sys,no"
+:Disp "friction.Total"
+:Disp "___E=constant"
+:Disp "ANS:C-MECHANICAL"
+:Pause
+:ClrHome
+:Disp "Q22: WORK"
+:Disp "Carry box,const"
+:Disp "ht,flat floor."
+:Disp "Work by lift=__"
+:Disp "ANS: C - ZERO"
+:Pause
+:ClrHome
+:Disp "Q23: POWER"
+:Disp "High pwr:same W"
+:Disp "in___ time than"
+:Disp "low power"
+:Disp "ANS: B - LESS"
+:Pause
+:ClrHome
+:Disp "Q24: PE"
+:Disp "Potential energy"
+:Disp "=energy of___"
+:Disp "ANS:B-POSITION"
+:Pause
+:ClrHome
+:Disp "Q25: FRICTION"
+:Disp "Friction slows"
+:Disp "obj,KE to ___ E"
+:Disp "ANS:B-THERMAL"
+:Pause
+:ClrHome
+:Disp "Q26: WORK SIGN"
+:Disp "Neg work:force"
+:Disp "&displace in___"
+:Disp "directions"
+:Disp "ANS:B-OPPOSITE"
+:Pause
+:ClrHome
+:Disp "Q27:W-E THEOREM"
+:Disp "Net work on obj"
+:Disp "=change in___"
+:Disp "ANS:B-KINETIC"
+:Disp "ENERGY"
+:Pause
+:ClrHome
+:Disp "Q28: KE"
+:Disp "Obj 2x faster"
+:Disp "than twin:___"
+:Disp "times the KE"
+:Disp "ANS: C - FOUR"
+:Pause
+:ClrHome
+:Disp "Q29: GRAV PE"
+:Disp "Grav PE depends"
+:Disp "on m,h, and___"
+:Disp "ANS:B-ACCEL DUE"
+:Disp "TO GRAVITY"
+:Pause
+:ClrHome
+:Disp "Q30:EFFICIENCY"
+:Disp "Efficient mach."
+:Disp "loses little E"
+:Disp "to ___"
+:Disp "ANS:B-WASTE HEAT"
+:Pause
+:Goto AK
